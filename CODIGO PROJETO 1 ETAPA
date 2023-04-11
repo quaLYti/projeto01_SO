@@ -1,0 +1,444 @@
+
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
+import java.awt.Graphics2D;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Scanner;
+import java.util.concurrent.Semaphore;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+public class Main {
+	
+
+	public static void main(String[] args) {
+		int k= Integer.parseInt(JOptionPane.showInputDialog("capacidade do cesto"));
+		s.vazio.release(k);
+		int i=0;
+		
+		
+		
+		
+		frame.tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.tela.setSize(500,300);
+		frame.tela.setSize(1300,800);
+		frame.tela.setLayout(new GridLayout(1,3));
+		//frame.jt.append("andre"+"\n");
+		frame.scrooll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		frame.scrooll.setPreferredSize(new Dimension(250, 250));
+		frame.scrooll.setBorder(
+		           BorderFactory.createCompoundBorder(
+		               BorderFactory.createCompoundBorder(
+		                               BorderFactory.createTitledBorder("Log"),
+		                               BorderFactory.createEmptyBorder(5,5,5,5)),
+		                               frame.scrooll.getBorder()));
+		 JPanel painel = new  JPanel();
+         
+	        
+	     painel.setLayout(new BoxLayout(painel,BoxLayout.PAGE_AXIS));
+	     painel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+	        
+	     frame.jt.setAlignmentX(Component.CENTER_ALIGNMENT);
+	     painel.add(Box.createVerticalStrut(10));
+	     painel.add(frame.scrooll);
+	     painel.add(Box.createVerticalStrut(5));
+	       
+	     painel.add(Box.createVerticalStrut(5));
+	     frame.painel1.setLayout(new GridLayout(5,2));
+	     //frame.jt.setLineWrap( true );
+	        
+	       
+	        
+		
+		
+		
+	
+		
+	
+		
+		
+		//botão
+		JButton c1 = new JButton("instanciar crianca");
+		c1.setBounds(100,100,120,30);
+		c1.setSize(150,80);
+		
+		//adicionar paineis
+		
+		
+		frame.tela.add(painel);
+		frame.tela.add(frame.painel);
+		frame.painel.setLayout(new BoxLayout(frame.painel,1));
+		frame.painel.add(c1);
+		
+		frame.tela.add(frame.painel1);
+		frame.painel.setVisible(true);
+		frame.painel1.setVisible(true);
+		frame.tela.setVisible(true);
+		
+		
+		
+		
+		
+		
+		
+		//evento
+		
+		c1.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						
+						crianca cr_1 = new crianca ("crianca");
+						cr_1.start();
+						
+					}
+				}
+			
+				);
+		
+
+	}
+	
+	
+}
+
+
+public class crianca extends Thread {
+	private String nome;
+	
+	//private JFrame janela;
+	private int bola;
+	private float t_b;
+	private float t_d;
+	private int a,b;
+	private ImageIcon crianca_b_1 = new ImageIcon(getClass().getResource("child.png"));
+	private ImageIcon crianca_b_2 = new ImageIcon(getClass().getResource("cr2.png"));
+	private ImageIcon crianca_quieta = new ImageIcon(getClass().getResource("cr1.png"));
+	private ImageIcon crianca_quieta2 = new ImageIcon(getClass().getResource("cr_q2.png"));	
+	private ImageIcon crianca_esp = new ImageIcon(getClass().getResource("cr_esp.png"));
+	private ImageIcon cesta = new ImageIcon(getClass().getResource("cesto.png"));
+	
+	private JPanel painel1 = new JPanel(); 
+	private JTextPane inf = new JTextPane();
+	
+	public crianca (String nome) { 
+		this.nome=nome;
+		
+		
+	}
+
+	public void run() {
+		
+		nome = JOptionPane.showInputDialog("Digite o nome: ");
+		
+		do {
+			
+			bola = Integer.parseInt(JOptionPane.showInputDialog("Crianca tem bola?1-nao 2-sim"));
+
+			if (bola !=1 && bola !=2){
+				System.out.println("Tipo invalido! Digite novamente!");	
+			}
+		
+		} while (bola !=1 && bola !=2);
+		
+		
+		t_b = Float.parseFloat(JOptionPane.showInputDialog("tempo brincando"));
+		t_d = Float.parseFloat(JOptionPane.showInputDialog("tempo sem bola"));
+		cesto.a.setText("bolas no cesto = "+cesto.k_c);
+		cesto.a.setIcon(cesta);
+		frame.painel.add(cesto.a);
+		frame.painel1.add(painel1);
+					
+		JLabel label = new JLabel();
+		JLabel label2 = new JLabel();
+		
+		label.setBounds(10,10,100,50);
+		label.setSize(60,95);
+		
+		inf.setSize(60,95);
+		painel1.setLayout(new GridLayout(1,2));
+		painel1.add(label);
+		painel1.add(inf);
+		painel1.setVisible(true);
+		
+		
+		label2.setBounds(10,10,100,50);
+		label2.setSize(60,95);
+		
+		label2.setIcon(crianca_b_2);
+		
+		JLabel [ ] labels = new JLabel [100];
+		for (int i=0; i < labels.length; i=i+2){
+		   labels[i] = new JLabel ( );
+		   labels[i+1]=new JLabel();
+		   labels[i].setIcon(crianca_b_1);
+		   labels[i+1].setIcon(crianca_b_2);
+		   labels[i].setBounds(10,10,100,50);
+		   labels[i].setSize(60,95);
+		   labels[i+1].setBounds(10,10,100,50);
+		   labels[i+1].setSize(60,95);
+		}
+		JLabel [ ] labels2 = new JLabel [100];
+		for (int i=0; i < labels2.length; i=i+2){
+		   labels2[i] = new JLabel ( );
+		   labels2[i+1]=new JLabel();
+		   labels2[i].setIcon(crianca_quieta);
+		   labels2[i+1].setIcon(crianca_quieta2);
+		   labels2[i].setBounds(10,10,100,50);
+		   labels2[i].setSize(60,95);
+		   labels2[i+1].setBounds(10,10,100,50);
+		   labels2[i+1].setSize(60,95);
+		}
+
+		while (true) {
+			
+			if (bola == 1) {
+				
+				try {
+					if (s.full.availablePermits()==0) {
+						//colocar informacao de crianca dormindo
+						frame.jt.insert(this.nome+" dormiu "+"aguardando bola"+"\n",0);
+						
+						label.setIcon(crianca_quieta);
+						inf.setText(this.nome+"\n"+"aguardando bola");
+					
+						painel1.add(label);
+						painel1.add(inf);
+						painel1.validate();
+						painel1.repaint();
+						frame.tela.validate();
+						frame.tela.repaint();
+					}
+					s.full.acquire();
+					s.mutex.acquire();
+					
+					cesto.k_c -=1;
+					cesto.a.setText("bolas no cesto = "+cesto.k_c);
+					frame.painel.add(cesto.a);
+					
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally{
+					s.mutex.release();
+					s.vazio.release();
+					inf.removeAll();
+					painel1.remove(label);
+					painel1.remove(inf);
+					painel1.validate();
+					painel1.repaint();
+					frame.painel.validate();
+					frame.painel.repaint();
+					frame.tela.validate();
+					frame.tela.repaint();
+					bola=2;
+				}
+				
+				
+			}
+			
+			
+			
+			a=0;
+			b=0;
+			
+			if(bola==2) {
+				
+				
+				
+				frame.jt.insert(this.nome+"  "+"brincando"+"\n",0);
+				
+				
+				
+				
+
+				while(a<(t_b)){
+					painel1.add(labels[a]);
+					inf.setText(this.nome+"\n"+" com bola "+"\n"+"tempo com bola= "+this.t_b+"\n"+"tempo sem bola = "+this.t_d+"\n"+"tempo que falta= "+(t_b-a));
+					painel1.add(inf);
+					painel1.validate();
+					painel1.repaint();
+					frame.tela.validate();
+					frame.tela.repaint();
+					
+					
+					
+					
+					long time = System.currentTimeMillis();
+					long contIteracoes = 0;
+					while(System.currentTimeMillis() - time < 1000){
+						contIteracoes++;
+					}
+				
+					painel1.remove(labels[a]);
+					painel1.remove(inf);
+					painel1.validate();
+					painel1.repaint();
+					frame.tela.validate();
+					frame.tela.repaint();
+				
+					
+					
+					a++;
+										
+				}
+				
+				
+			
+				
+								
+				
+				try {
+					if (s.vazio.availablePermits()==0) {
+						//colocar informacao de crianca dormindo
+						frame.jt.insert(" "+this.nome+" dormiu "+"aguardando espaco no cesto"+"\n",0);
+						label.setIcon(crianca_esp);
+						inf.setText(this.nome+"\n"+"aguardando "+"\n"+"espaco no cesto "+"\n");
+						
+						painel1.add(label);
+						painel1.add(inf);
+						painel1.validate();
+						painel1.repaint();
+						frame.tela.validate();
+						frame.tela.repaint();
+					}
+					s.vazio.acquire();
+					s.mutex.acquire();
+					cesto.k_c+=1;
+					cesto.a.setText("bolas no cesto = "+cesto.k_c);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					s.mutex.release();
+					s.full.release();
+					painel1.remove(label);
+					painel1.remove(inf);
+					inf.removeAll();
+					painel1.validate();
+					painel1.repaint();
+					frame.painel.validate();
+					frame.painel.repaint();
+					frame.tela.validate();
+					frame.tela.repaint();
+					bola=1;
+				}
+				
+				
+				
+				frame.jt.insert(" "+this.nome+"  "+"quieto(a)"+"\n",0);
+				
+				
+				
+				
+				
+									
+				
+				while(b<(t_d)){
+					painel1.add(labels2[b]);
+					inf.setText(this.nome+"\n"+" sem bola "+"\n"+"tempo com bola= "+this.t_b+"\n"+"tempo sem bola = "+this.t_d+"\n"+"tempo que falta= "+(t_d-b));
+					painel1.add(inf);
+					painel1.validate();
+					painel1.repaint();
+					frame.tela.validate();
+					frame.tela.repaint();
+					
+					
+					
+					
+					long time = System.currentTimeMillis();
+					long contIteracoes = 0;
+					while(System.currentTimeMillis() - time < 1000){
+						contIteracoes++;
+					}
+				
+					painel1.remove(labels2[b]);
+					painel1.remove(inf);
+					painel1.validate();
+					painel1.repaint();
+					frame.tela.validate();
+					frame.tela.repaint();
+				
+					
+					
+					b++;
+										
+				}
+				
+				
+			}
+		}
+	}
+}	
+
+
+public class f extends JFrame {
+	
+	JLabel recado= new JLabel("aew");
+	
+	public f() {
+		setSize(230,357);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setVisible(true);
+		
+	}
+}
+
+public class s {
+	
+	
+	public static Semaphore mutex = new Semaphore(1);
+	public static Semaphore full = new Semaphore(0);
+	public static Semaphore vazio = new Semaphore(0);
+	
+	
+	
+}
+
+public class frame {
+	public static JFrame tela = new JFrame();
+	public static JFrame tela2 = new JFrame();
+	public static JLabel label = new JLabel();
+	public static JLabel label2 = new JLabel();
+	public static JLabel label3 = new JLabel();
+	public static JPanel painel = new JPanel();
+	public static JPanel painel1 = new JPanel();
+	public static JTextArea jt = new JTextArea();
+	public static JScrollPane scrooll = new JScrollPane(jt);
+	
+    
+	
+
+	public static Image backGroundImage;
+	
+	
+	
+
+	
+}
+
+public class cesto {
+	public static int k_c=0;
+	public static JLabel a = new JLabel();
+
+}
+		
+	
