@@ -1,0 +1,968 @@
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import java.util.concurrent.Semaphore;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+
+  
+public class principal {
+
+	public static void main(String[] args) {
+		
+		
+		gui_recursos.g=50;
+		gui_recursos.h=600;
+		
+        //GraphDrawing graphDrawing = new GraphDrawing();
+        gui_recursos.graf = new grafDesenha();
+        
+        
+		
+		
+		//definicao do frame
+		gui_recursos.tela_fundo= new JFrame();
+		gui_recursos.tela_grafo= new JFrame();
+		gui_recursos.tela_fundo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gui_recursos.tela_grafo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Toolkit kit = Toolkit.getDefaultToolkit();
+	    Dimension tamTela = kit.getScreenSize();
+	    
+	    int larg = tamTela.width;
+	    int alt = tamTela.height;
+	    
+	    gui_recursos.tela_fundo.setSize(385, alt);
+	    gui_recursos.tela_fundo.setLayout(null);
+	    gui_recursos.tela_grafo.setSize(900, alt);
+	    //gui_recursos.tela_grafo.setLayout(null);
+	    
+	    
+	    
+		gui_recursos.painel2 = new JPanel();
+		JPanel painel = new JPanel();
+		
+		
+		
+		gui_recursos.painel1 = new JPanel();
+		gui_recursos.painel3 = new JPanel();
+	    //gui_recursos.tela_fundo.setLayout(new GridLayout(1,4));
+	    //mudando layout para manual
+	    
+	    
+	    gui_recursos.painel2.setLayout(null);
+	    //definir layout grid 10 linha 1 coluna
+	    gui_recursos.painel1.setLayout(new GridLayout(10,1));
+	    gui_recursos.painel3.setLayout(new GridLayout(10,1));
+	    
+	    //mudando layout do frame fundo para manual
+	    gui_recursos.painel1.setBounds(320,10,300,700);
+	    gui_recursos.painel1.setBackground(new Color(30,30,30,30));
+	    
+	    
+	   
+	    gui_recursos.painel2.setBackground(new Color(0,0,0,0));
+	  
+	    
+	    
+	    //botao add recurso
+	    gui_recursos.button1 = new JButton("Criar processo");
+	    gui_recursos.button1.setBounds(55,55,150,50);
+	    
+	    
+	    //botao para remover deadLock bugou, mostrar ao professor, porem nao esta pedindo na especificação!!!!!!!!!!!!!!!!!!!!!
+	    //botao liberar todos os recursos
+	    //gui_recursos.button2 = new JButton("encerrar deadLock");
+	    //gui_recursos.button2.setBounds(55,110,150,50);
+	    
+	    
+	    gui_recursos.painel2.add(gui_recursos.button1);
+	    
+	    
+	    //nao adicionei ao painel pois bugou
+	    //gui_recursos.painel2.add(gui_recursos.button2);
+	    
+	    
+	    
+	    
+	    
+	    //log de acontecimentos importantes
+	    gui_recursos.scrooll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    gui_recursos.scrooll.setPreferredSize(new Dimension(250, 250));
+	    gui_recursos.scrooll.setBorder(
+		           BorderFactory.createCompoundBorder(
+		               BorderFactory.createCompoundBorder(
+		                               BorderFactory.createTitledBorder("Log"),
+		                               BorderFactory.createEmptyBorder(5,5,5,5)),
+		               				   gui_recursos.scrooll.getBorder()));
+		 
+         
+		 
+	     painel.setLayout(new BoxLayout(painel,BoxLayout.PAGE_AXIS));
+	     painel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+	        
+	     gui_recursos.jt.setAlignmentX(Component.CENTER_ALIGNMENT);
+	     painel.add(Box.createVerticalStrut(10));
+	     painel.add(gui_recursos.scrooll);
+	     painel.add(Box.createVerticalStrut(5));
+	     painel.add(Box.createVerticalStrut(5));
+	     painel.add(gui_recursos.painel2);
+	     
+	     //mudando layout para manual
+	     painel.setBounds(10,10,350,700);
+	     
+	    
+	    
+	     //adicionar um plano de fundo
+	     //gui_recursos.tela_fundo.setBackground(Color.BLUE);
+	     gui_recursos.tela_fundo.getContentPane().setBackground(Color.LIGHT_GRAY);
+	     //gui_recursos.tela_grafo.getContentPane().setBackground(Color.LIGHT_GRAY);
+	     
+	     
+	     //panelD.setVisible(true);
+	     
+	     gui_recursos.tela_fundo.add(painel);
+	     
+	     gui_recursos.tela_grafo.add(gui_recursos.graf);
+	     
+	     
+	     //quantidade de recursos
+	     semaforos.qtdRec=0;
+	     semaforos.qtdRec= Integer.parseInt(JOptionPane.showInputDialog("quantidade de recursos?"));
+	     
+	     
+	     //inicializar semaforos de recurso
+	    semaforos.recursos = new Semaphore[semaforos.qtdRec];
+	     for (int i=0; i<semaforos.qtdRec; i++) {
+	    	 semaforos.recursos[i]=new Semaphore(1);
+	    	
+	     }
+	     
+	     sistemaOperacional.grafo1 = new grafo();
+	     
+	     
+	     //tempo para busca de deadLock
+	     int tbDLock=0;
+	     tbDLock= Integer.parseInt(JOptionPane.showInputDialog("deltaT dead lock?"));
+	     
+	     
+	     
+	     gui_recursos.tela_fundo.setVisible(true);
+	     gui_recursos.tela_grafo.setLocation(375,0);
+	     gui_recursos.tela_grafo.setVisible(true);
+	     
+		 sistemaOperacional so1 = new sistemaOperacional("1",tbDLock);
+		 so1.start();
+		 
+	     
+		 int x=50, y=50;
+	     for(int i=0; i<semaforos.qtdRec;i++) {
+	    	 
+	    	 String a = JOptionPane.showInputDialog("Digite o nome do recurso"+(i)+" : ");
+	    	 sistemaOperacional.grafo1.addVertice(a,i);
+	    	 semaforos.recursos[i]= new Semaphore(1);
+	    	 semaforos.nomeRecurso[i]=a;
+	    	 
+	    	 gui_recursos.graf.addNodeR(x,y);
+	    	 
+	    	 gui_recursos.graf.repaint();
+	    	 gui_recursos.jt.insert(" Recurso "+a+" adicionado "+"\n",0);
+	    	 x=x+80;
+	    	 
+	    	 
+            
+	     }
+	    
+	     
+	     
+	     gui_recursos.nextItNodeB= 0;
+		 
+		 gui_recursos.button1.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					//grafo.criaProcesso("processo");
+					if(gui_recursos.x<=10) {
+						
+						int a= Integer.parseInt(JOptionPane.showInputDialog("Digite o deltaT solicitacao de "+(gui_recursos.x)+" : "));
+						int b= Integer.parseInt(JOptionPane.showInputDialog("Digite o deltaT para ultilizacao de "+(gui_recursos.x)+" : "));
+						
+						
+						
+						
+						
+						processo pr_1 = new processo ("processo "+gui_recursos.x,a,b,gui_recursos.c,gui_recursos.g,gui_recursos.h,semaforos.qtdRec);
+						pr_1.start();
+						
+						
+						
+						gui_recursos.x++;
+						gui_recursos.c++;
+						
+						
+					}else {
+						gui_recursos.jt.insert(" maximo de processos atingido "+"\n",0);
+					}
+				}
+			}
+		
+			);
+		 
+		 
+	}
+
+}
+
+public class processo extends Thread{
+	
+	private String nome;
+	private int deltaTS,deltaTU,id;
+	private Random random = new Random();
+	private int id_recurso=10;
+	private int recurso_deltaT[]=new int[1000];
+	private int recurso_possuido[] = new int[1000];
+	private int f=0;
+	private int cont1=0;
+	private int cont_liberar=1;
+	private boolean z=true;
+	//controle de iteraçao dos vetores de recurso
+	private int ir=0;
+	private int rec=0;
+	
+	
+	
+	
+	
+	
+	
+	public processo (String nome, int deltaTS, int deltaTU,int id,int x, int y,int rec) { 
+		
+		this.nome=nome;
+		this.deltaTS=deltaTS;
+		this.deltaTU=deltaTU;
+		this.id=id;
+		this.rec = rec;
+		
+		
+		
+		
+	}
+	
+	
+	
+	public void run() {
+		
+		
+		
+		gui_recursos.jt.insert(this.nome+" criado "+"\n",0);
+		try {
+			semaforos.mutex.acquire();
+			gui_recursos.graf.addNode(gui_recursos.g,gui_recursos.h);
+			gui_recursos.graf.repaint();
+			gui_recursos.g=gui_recursos.g+80;
+			sistemaOperacional.grafo1.addVertice(this.nome,this.id);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			semaforos.mutex.release();
+		}
+		
+		
+		for(int i=0; i<1000; i++) {
+			recurso_possuido[i]=-1;
+		}
+		while(true) {
+			z=true;
+			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(f!=rec) {
+				
+				while(z==true) {
+					z=false;
+					id_recurso = random.nextInt(rec);
+					for(int i=0; i<1000; i++) {
+						
+						if (id_recurso == recurso_possuido[i]) {
+							
+							z=true;
+							
+						}
+					}
+					
+				}
+				
+				
+				
+				//solicitacao de recurso
+				if(cont1==deltaTS) {
+					
+					
+					
+					
+					if (z==false) {
+						
+						
+						gui_recursos.jt.insert(this.nome+" solicitando : "+semaforos.nomeRecurso[id_recurso]+"\n",0);
+						if (semaforos.recursos[id_recurso].availablePermits()==0) {
+							
+							gui_recursos.jt.insert(this.nome+" dormiu aguardando: "+semaforos.nomeRecurso[id_recurso]+"\n",0);
+							
+							
+							try {
+								semaforos.mutex.acquire();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							//adicao de nó bloqueado
+							//gui_recursos.graf.addNodeB(this.a1,this.a2);
+							//indexNodeB=gui_recursos.nextItNodeB;
+							//gui_recursos.nextItNodeB++;
+							
+							sistemaOperacional.grafo1.addAresta(this.nome,semaforos.nomeRecurso[id_recurso]);
+							gui_recursos.graf.addEdge(this.id,id_recurso);
+							semaforos.mutex.release();
+							
+							
+							try {
+								semaforos.recursos[id_recurso].acquire();
+								semaforos.mutex.acquire();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							gui_recursos.jt.insert(this.nome+" usando: "+semaforos.nomeRecurso[id_recurso]+"\n",0);
+							sistemaOperacional.grafo1.deleteAresta(this.nome,semaforos.nomeRecurso[id_recurso]);
+							gui_recursos.graf.deleteEdge(this.id,id_recurso);
+							//deletar nó bloqueado
+							//gui_recursos.graf.deleteNodeB(indexNodeB);
+							//gui_recursos.graf.addNodeBE(this.a1,this.a2);
+							//gui_recursos.nextItNodeB--;
+							
+							sistemaOperacional.grafo1.addAresta(semaforos.nomeRecurso[id_recurso],this.nome);
+							gui_recursos.graf.addEdgeDown(id_recurso,this.id);
+							//gui_recursos.tela_grafo.repaint();
+							recurso_possuido[ir]=id_recurso;
+							recurso_deltaT[ir]=cont_liberar+deltaTU;
+							ir++;
+							semaforos.mutex.release();
+							
+							
+						}else {
+							
+							try {
+								semaforos.recursos[id_recurso].acquire();
+								semaforos.mutex.acquire();
+								
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							gui_recursos.jt.insert(this.nome+" usando: "+semaforos.nomeRecurso[id_recurso]+"\n",0);
+							sistemaOperacional.grafo1.addAresta(semaforos.nomeRecurso[id_recurso],this.nome);
+							gui_recursos.graf.addEdgeDown(id_recurso,this.id);
+							f++;
+							//gui_recursos.tela_grafo.repaint();
+							recurso_possuido[ir]=id_recurso;
+							recurso_deltaT[ir]=cont_liberar+deltaTU;
+							ir++;
+							semaforos.mutex.release();
+							
+							
+						}
+						
+						
+						
+						
+					}else {
+						gui_recursos.jt.insert(this.nome+" ja possui o: "+semaforos.nomeRecurso[id_recurso]+"\n",0);
+						z=false;
+					}
+					
+					
+					
+				
+				
+					cont1=0;
+				}
+				
+			}else {
+				cont1=0;
+			}
+			
+			//uso do recurso
+			
+			for(int i=0; i<1000; i++) {
+				if(recurso_deltaT[i]==cont_liberar) {
+					gui_recursos.jt.insert(this.nome+" liberando: "+semaforos.nomeRecurso[recurso_possuido[i]]+"\n",0);
+					try {
+						semaforos.mutex.acquire();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					sistemaOperacional.grafo1.deleteAresta(semaforos.nomeRecurso[recurso_possuido[i]],this.nome);
+					gui_recursos.graf.deleteEdgeDown(recurso_possuido[i],this.id);
+					f--;
+					gui_recursos.tela_grafo.repaint();
+					semaforos.recursos[recurso_possuido[i]].release();
+					recurso_possuido[i]=-1;
+					recurso_deltaT[i]=-1;
+					semaforos.mutex.release();
+					
+				}
+			}
+			
+			
+			cont1++;
+			cont_liberar++;
+			
+		}
+	}
+	
+
+}
+
+public class sistemaOperacional extends Thread{
+	
+	String nome;
+	int a;
+	public static grafo grafo1;
+	public static ArrayList<vertice> ciclo = new ArrayList<vertice>();
+	
+	
+	public sistemaOperacional (String nome, int a) {
+			this.nome=nome;
+			this.a=a;
+	}
+	
+	public void run() {
+		
+		
+		gui_recursos.jt.insert("Sistema operacional "+this.nome+" iniciado "+"\n",0);
+		gui_recursos.jt.insert("intervalo detecção deadLock= "+a+" s "+"\n",0);
+		//inicializacao do grafo
+		
+		
+		while(true) {
+			
+			try {
+				sleep(1000*a);
+				gui_recursos.jt.insert("buscando deadlock"+"\n",0);
+				if(sistemaOperacional.grafo1.temCiclo()==null) {
+					gui_recursos.jt.insert("sem dead_lock"+"\n",0);
+				}
+				if(sistemaOperacional.grafo1.temCiclo()!=null) {
+					
+					ciclo = sistemaOperacional.grafo1.temCiclo();
+					gui_recursos.jt.insert("dead lock entre: "+"\n",0);
+					for (int i=0; i<ciclo.size(); i++) {
+						gui_recursos.jt.insert(ciclo.get(i).getDado()+"\n",0);
+						//System.out.print(ciclo.get(i).getDado()+"\n");
+					}
+					
+				}
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		
+		
+		
+	}
+
+}
+
+import java.util.concurrent.Semaphore;
+
+
+public class semaforos {
+	public static Semaphore[] recursos;
+	public static String[] nomeRecurso = new String[10];
+	public static Semaphore mutex = new Semaphore(1);
+	public static int [] recursoPossuido = new int[10];
+	public static int qtdRec;
+	
+}
+
+import java.awt.*;
+import javax.swing.*;
+
+public class gui_recursos {
+	public static String usuario_recurso[]=new String[10];
+	public static int possui_recurso[]=new int[10];
+	public static JFrame tela_fundo;
+	public static JFrame tela_grafo;
+	public static grafDesenha graf = new grafDesenha();
+	public static Graphics tela;
+	public static JPanel painel1,painel2,painel3;// = new JPanel();
+	public static JLabel label1,label2,label3,label4,label5=new JLabel();
+	public static JButton button1,button2=new JButton();
+	public static JTextArea jt = new JTextArea();
+	public static JScrollPane scrooll = new JScrollPane(jt);
+	public static int x=1;
+	public static int g;
+	public static int h;
+	public static int[] a,b;
+	public static int nextItNodeB;
+	public static desenhar d = new desenhar();//coordenadas de chegada e saida dos vertices para uso do gui
+	public static int c = 0;
+	//public static grafo<String> grafo1;//  = new grafo<String>();
+	
+}
+
+import java.awt.*;
+import java.util.ArrayList;
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class grafDesenha extends JPanel {
+    private ArrayList<Point> nodes;
+    private ArrayList<Point> nodesB;
+    private ArrayList<Point> nodesBE;
+    private ArrayList<Point> nodesR;
+    private ArrayList<Point[]> edges;
+    private ArrayList<Point[]> edges2;
+
+    public grafDesenha() {
+        nodes = new ArrayList<>();
+        nodesB = new ArrayList<>();
+        nodesBE = new ArrayList<>();
+        nodesR = new ArrayList<>();
+        edges = new ArrayList<>();
+        edges2 = new ArrayList<>();
+    }
+
+    public void addNode(int x, int y) {
+        nodes.add(new Point(x, y));
+        repaint();
+    }
+    
+    public void addNodeB(int x, int y) {
+        nodesB.add(new Point(x, y));
+        repaint();
+    }
+    
+    public void addNodeBE(int x, int y) {
+        nodesBE.add(new Point(x, y));
+        repaint();
+    }
+    
+    public void addNodeR(int x, int y) {
+        nodesR.add(new Point(x, y));
+        repaint();
+    }
+
+    public void addEdge(int node1, int node2) {
+        if (node1 < nodes.size() && node2 < nodesR.size()) {
+            Point[] edge = new Point[2];
+            edge[0] = nodes.get(node1);
+            edge[1] = nodesR.get(node2);
+            edges.add(edge);
+            repaint();
+        }
+    }
+    
+    public void addEdgeDown(int node1, int node2) {
+        if (node1 < nodesR.size() && node2 < nodes.size()) {
+            Point[] edge = new Point[2];
+            edge[0] = nodesR.get(node1);
+            edge[1] = nodes.get(node2);
+            edges2.add(edge);
+            repaint();
+        }
+    }
+    
+    public void deleteNodeB(int nodeIndex) {
+        if (nodeIndex < nodesB.size()) {
+            Point node = nodesB.get(nodeIndex);
+            
+            // Remover arestas conectadas ao nó
+            /*ArrayList<Point[]> connectedEdges = new ArrayList<>();
+            for (Point[] edge : edges2) {
+                if (edge[0].equals(node) || edge[1].equals(node)) {
+                    connectedEdges.add(edge);
+                }
+            }
+            edges2.removeAll(connectedEdges);*/
+            
+            // Remover o nó da lista nodesB
+            nodesB.remove(nodeIndex);
+            
+            repaint();
+        }
+    }
+
+
+    public void deleteEdge(int node1, int node2) {
+        for (int i = 0; i < edges.size(); i++) {
+            Point[] edge = edges.get(i);
+            Point startPoint = edge[0];
+            Point endPoint = edge[1];
+            if ((startPoint.equals(nodes.get(node1)) && endPoint.equals(nodesR.get(node2)))
+                    /*|| (startPoint.equals(nodes.get(node2)) && endPoint.equals(nodes.get(node1)))*/) {
+                edges.remove(i);
+                repaint();
+                break;
+            }
+        }
+    }
+    
+    public void deleteEdgeDown(int node1, int node2) {
+        for (int i = 0; i < edges2.size(); i++) {
+            Point[] edge = edges2.get(i);
+            Point startPoint = edge[0];
+            Point endPoint = edge[1];
+            if ((startPoint.equals(nodesR.get(node1)) && endPoint.equals(nodes.get(node2)))
+                    /*|| (startPoint.equals(nodes.get(node2)) && endPoint.equals(nodes.get(node1)))*/) {
+                edges2.remove(i);
+                repaint();
+                break;
+            }
+        }
+    }
+    
+    public void deleteAllEdges() {
+        edges.clear();
+        edges2.clear();
+        repaint();
+    }
+
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        
+        
+        g2d.setColor(Color.black);
+        
+        g2d.setFont(new Font("calibri",Font.BOLD,20));
+        g2d.drawString("Recursos",250,20);
+        g2d.drawString("Processos",250,650);
+        // Desenhar nós
+        g2d.setColor(Color.blue);
+        for (Point node : nodes) {
+            g2d.fillOval(node.x - 5, node.y - 5, 10, 10);
+        }
+        
+        g2d.setColor(Color.RED);
+        for (Point node : nodesB) {
+            g2d.fillOval(node.x - 5, node.y - 5, 10, 10);
+        }
+        
+        g2d.setColor(Color.blue);
+        for (Point node : nodesBE) {
+            g2d.fillOval(node.x - 5, node.y - 5, 10, 10);
+        }
+        
+        g2d.setColor(Color.blue);
+        for (Point node : nodesR) {
+            g2d.fillRect(node.x - 5, node.y - 5, 10, 10);
+        }
+
+        // Desenhar arestas
+        g2d.setColor(Color.RED);
+        for (Point[] edge : edges) {
+            Point startPoint = edge[0];
+            Point endPoint = edge[1];
+            g2d.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+        }
+        
+        g2d.setColor(Color.GREEN);
+        for (Point[] edge : edges2) {
+            Point startPoint = edge[0];
+            Point endPoint = edge[1];
+            g2d.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+        }
+    }
+}
+
+
+public class vertice {
+	private String dado;
+	private int id;
+	private ArrayList <aresta> arestasEntrada;
+	private ArrayList <aresta> arestasSaida;
+
+	
+	
+	
+	
+	public vertice(String valor) {
+		this.dado = valor;
+		this.arestasEntrada = new ArrayList<aresta>();
+		this.arestasSaida = new ArrayList<aresta>();
+	}
+	
+	public vertice(String valor,int id) {
+		this.dado = valor;
+		this.arestasEntrada = new ArrayList<aresta>();
+		this.arestasSaida = new ArrayList<aresta>();
+		this.id=id;
+	}
+
+
+
+
+
+	public ArrayList<aresta> getArestasEntrada() {
+		return arestasEntrada;
+	}
+
+
+
+
+
+	public void setArestasEntrada(ArrayList<aresta> arestasEntrada) {
+		this.arestasEntrada = arestasEntrada;
+	}
+
+
+
+
+
+	public ArrayList<aresta> getArestasSaida() {
+		return arestasSaida;
+	}
+
+
+
+
+
+	public void setArestasSaida(ArrayList<aresta> arestasSaida) {
+		this.arestasSaida = arestasSaida;
+	}
+
+
+
+
+
+	public String getDado() {
+		return dado;
+	}
+
+
+
+
+
+	public void setDado(String dado) {
+		this.dado = dado;
+	}
+	
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void adicionarArestaEntrada(aresta aresta) {
+		this.arestasEntrada.add(aresta);
+		
+	}
+	
+	public void adicionarArestaSaida(aresta aresta) {
+		this.arestasSaida.add(aresta);
+		
+	}
+	
+	public void removerArestaEntrada(aresta aresta) {
+	    this.arestasEntrada.remove(aresta);
+	}
+
+	public void removerArestaSaida(aresta aresta) {
+	    this.arestasSaida.remove(aresta);
+	}
+
+
+	
+	
+}
+
+public class aresta {
+	private vertice inicio;
+	private vertice fim;
+	
+	public aresta(vertice inicio, vertice fim) {
+		this.inicio=inicio;
+		this.fim = fim;
+		
+	}
+	
+	public vertice getInicio() {
+		return inicio;
+	}
+	public void setInicio(vertice inicio) {
+		this.inicio = inicio;
+	}
+	public vertice getFim() {
+		return fim;
+	}
+	public void setFim(vertice fim) {
+		this.fim = fim;
+	}
+
+	
+	
+}
+
+public class grafo{
+	
+	private ArrayList<vertice> vertices;
+	private ArrayList<aresta> arestas;
+	
+		
+	
+	
+	
+	public grafo() {
+		this.vertices= new ArrayList<vertice>();
+		this.arestas= new ArrayList<aresta>();
+		
+	}
+	
+	public void addVertice(String dado, int id) {
+		vertice novoVertice = new vertice(dado,id);
+		this.vertices.add(novoVertice);
+	}
+	
+	public void addAresta(String dadoInicio, String dadoFim) {
+		vertice inicio= this.getVertice(dadoInicio);
+		vertice fim= this.getVertice(dadoFim);
+		aresta aresta = new aresta(inicio,fim);
+		inicio.adicionarArestaSaida(aresta);
+		fim.adicionarArestaEntrada(aresta);
+		this.arestas.add(aresta);
+	}
+	public void deleteAresta(String dadoInicio, String dadoFim) {
+	    vertice inicio = this.getVertice(dadoInicio);
+	    vertice fim = this.getVertice(dadoFim);
+	    aresta arestaRemover = null;
+
+	    for (int i = 0; i < this.arestas.size(); i++) {
+	        aresta aresta = this.arestas.get(i);
+	        if (aresta.getInicio() == inicio && aresta.getFim() == fim) {
+	            arestaRemover = aresta;
+	            break;
+	        }
+	    }
+
+	    if (arestaRemover != null) {
+	        inicio.removerArestaSaida(arestaRemover);
+	        fim.removerArestaEntrada(arestaRemover);
+	        this.arestas.remove(arestaRemover);
+	    }
+	}
+	
+	public void deleteAllArestas() {
+	    for (vertice v : vertices) {
+	        v.getArestasSaida().clear();
+	        v.getArestasEntrada().clear();
+	    }
+	    arestas.clear();
+	}
+
+
+	
+	
+	public vertice getVertice(String dado){
+		vertice vertice= null;
+		for (int i=0; i<this.vertices.size(); i++) {
+			if (this.vertices.get(i).getDado().equals(dado)) {
+				vertice = 	this.vertices.get(i);
+				break;
+			}
+		}
+		return vertice;
+	}
+	
+	public ArrayList<vertice> temCiclo() {
+	    ArrayList<vertice> ciclo = new ArrayList<>();
+	    ArrayList<vertice> visitados = new ArrayList<>();
+	    for (vertice vertice : vertices) {
+	        if (!visitados.contains(vertice) && temCicloRecursivo(vertice, visitados, ciclo)) {
+	            return ciclo;
+	        }
+	    }
+	    return null;
+	}
+	
+	
+	private boolean temCicloRecursivo(vertice vertice, ArrayList<vertice> visitados, ArrayList<vertice> ciclo) {
+	    visitados.add(vertice);
+	    ciclo.add(vertice);
+	    for (aresta aresta : vertice.getArestasSaida()) {
+	        vertice proximo = aresta.getFim();
+	        if (ciclo.contains(proximo)) {
+	            // Encontrou o ciclo
+	            ciclo.add(proximo);
+	            return true;
+	        }
+	        if (visitados.contains(proximo) || temCicloRecursivo(proximo, visitados, ciclo)) {
+	            return true;
+	        }
+	    }
+	    visitados.remove(vertice);
+	    ciclo.remove(vertice);
+	    return false;
+	}
+
+
+	
+	public void buscaEmLargura() {
+		ArrayList<vertice> marcados= new ArrayList<vertice>();
+		ArrayList<vertice> fila= new ArrayList<vertice>();
+		vertice atual = this.vertices.get(0);
+		marcados.add(atual);
+		//colocar aqui acao que mostrar funcionamento do grafo
+		fila.add(atual);
+		while(fila.size()> 0) {
+			vertice visitado = fila.get(0);
+			for ( int i =0; i<visitado.getArestasSaida().size(); i++) {
+				vertice proximo = visitado.getArestasSaida().get(i).getFim();
+				if(!marcados.contains(proximo)) {
+					marcados.add(proximo);
+					// colocar acao  para mostar funcionamento do grafo
+					fila.add(proximo);
+				}
+			}
+			fila.remove(0);
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+}
