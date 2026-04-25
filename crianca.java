@@ -1,123 +1,16 @@
 
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
-import java.awt.Graphics2D;
-import java.awt.GridBagLayout;
+
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.Scanner;
-import java.util.concurrent.Semaphore;
+
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 import javax.swing.JTextPane;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
+
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
-public class Main {
-	
-
-	public static void main(String[] args) {
-		int k= Integer.parseInt(JOptionPane.showInputDialog("capacidade do cesto"));
-		s.vazio.release(k);
-		int i=0;
-		
-		
-		
-		
-		frame.tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.tela.setSize(500,300);
-		frame.tela.setSize(1300,800);
-		frame.tela.setLayout(new GridLayout(1,3));
-		//frame.jt.append("andre"+"\n");
-		frame.scrooll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		frame.scrooll.setPreferredSize(new Dimension(250, 250));
-		frame.scrooll.setBorder(
-		           BorderFactory.createCompoundBorder(
-		               BorderFactory.createCompoundBorder(
-		                               BorderFactory.createTitledBorder("Log"),
-		                               BorderFactory.createEmptyBorder(5,5,5,5)),
-		                               frame.scrooll.getBorder()));
-		 JPanel painel = new  JPanel();
-         
-	        
-	     painel.setLayout(new BoxLayout(painel,BoxLayout.PAGE_AXIS));
-	     painel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-	        
-	     frame.jt.setAlignmentX(Component.CENTER_ALIGNMENT);
-	     painel.add(Box.createVerticalStrut(10));
-	     painel.add(frame.scrooll);
-	     painel.add(Box.createVerticalStrut(5));
-	       
-	     painel.add(Box.createVerticalStrut(5));
-	     frame.painel1.setLayout(new GridLayout(5,2));
-	     //frame.jt.setLineWrap( true );
-	        
-	       
-	        
-		
-		
-		
-	
-		
-	
-		
-		
-		//botão
-		JButton c1 = new JButton("instanciar crianca");
-		c1.setBounds(100,100,120,30);
-		c1.setSize(150,80);
-		
-		//adicionar paineis
-		
-		
-		frame.tela.add(painel);
-		frame.tela.add(frame.painel);
-		frame.painel.setLayout(new BoxLayout(frame.painel,1));
-		frame.painel.add(c1);
-		
-		frame.tela.add(frame.painel1);
-		frame.painel.setVisible(true);
-		frame.painel1.setVisible(true);
-		frame.tela.setVisible(true);
-		
-		
-		
-		
-		
-		
-		
-		//evento
-		
-		c1.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						
-						crianca cr_1 = new crianca ("crianca");
-						cr_1.start();
-						
-					}
-				}
-			
-				);
-		
-
-	}
-	
-	
-}
-
 
 public class crianca extends Thread {
 	private String nome;
@@ -149,7 +42,7 @@ public class crianca extends Thread {
 		
 		do {
 			
-			bola = Integer.parseInt(JOptionPane.showInputDialog("Crianca tem bola?1-nao 2-sim"));
+			bola = Integer.parseInt(JOptionPane.showInputDialog("Criança tem bola?1-nao 2-sim"));
 
 			if (bola !=1 && bola !=2){
 				System.out.println("Tipo invalido! Digite novamente!");	
@@ -158,9 +51,9 @@ public class crianca extends Thread {
 		} while (bola !=1 && bola !=2);
 		
 		
-		t_b = Float.parseFloat(JOptionPane.showInputDialog("tempo brincando"));
-		t_d = Float.parseFloat(JOptionPane.showInputDialog("tempo sem bola"));
-		cesto.a.setText("bolas no cesto = "+cesto.k_c);
+		t_b = Float.parseFloat(JOptionPane.showInputDialog("Tempo brincando"));
+		t_d = Float.parseFloat(JOptionPane.showInputDialog("Tempo sem bola"));
+		cesto.a.setText("Bolas no cesto = "+cesto.k_c);
 		cesto.a.setIcon(cesta);
 		frame.painel.add(cesto.a);
 		frame.painel1.add(painel1);
@@ -229,7 +122,7 @@ public class crianca extends Thread {
 					s.mutex.acquire();
 					
 					cesto.k_c -=1;
-					cesto.a.setText("bolas no cesto = "+cesto.k_c);
+					cesto.a.setText("Bolas no cesto = "+cesto.k_c);
 					frame.painel.add(cesto.a);
 					
 					
@@ -308,9 +201,9 @@ public class crianca extends Thread {
 				try {
 					if (s.vazio.availablePermits()==0) {
 						//colocar informacao de crianca dormindo
-						frame.jt.insert(" "+this.nome+" dormiu "+"aguardando espaco no cesto"+"\n",0);
+						frame.jt.insert(" "+this.nome+" dormiu "+"aguardando espaço no cesto"+"\n",0);
 						label.setIcon(crianca_esp);
-						inf.setText(this.nome+"\n"+"aguardando "+"\n"+"espaco no cesto "+"\n");
+						inf.setText(this.nome+"\n"+"aguardando "+"\n"+"espaço no cesto "+"\n");
 						
 						painel1.add(label);
 						painel1.add(inf);
@@ -322,7 +215,7 @@ public class crianca extends Thread {
 					s.vazio.acquire();
 					s.mutex.acquire();
 					cesto.k_c+=1;
-					cesto.a.setText("bolas no cesto = "+cesto.k_c);
+					cesto.a.setText("Bolas no cesto = "+cesto.k_c);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -389,56 +282,3 @@ public class crianca extends Thread {
 }	
 
 
-public class f extends JFrame {
-	
-	JLabel recado= new JLabel("aew");
-	
-	public f() {
-		setSize(230,357);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setVisible(true);
-		
-	}
-}
-
-public class s {
-	
-	
-	public static Semaphore mutex = new Semaphore(1);
-	public static Semaphore full = new Semaphore(0);
-	public static Semaphore vazio = new Semaphore(0);
-	
-	
-	
-}
-
-public class frame {
-	public static JFrame tela = new JFrame();
-	public static JFrame tela2 = new JFrame();
-	public static JLabel label = new JLabel();
-	public static JLabel label2 = new JLabel();
-	public static JLabel label3 = new JLabel();
-	public static JPanel painel = new JPanel();
-	public static JPanel painel1 = new JPanel();
-	public static JTextArea jt = new JTextArea();
-	public static JScrollPane scrooll = new JScrollPane(jt);
-	
-    
-	
-
-	public static Image backGroundImage;
-	
-	
-	
-
-	
-}
-
-public class cesto {
-	public static int k_c=0;
-	public static JLabel a = new JLabel();
-
-}
-		
-	
